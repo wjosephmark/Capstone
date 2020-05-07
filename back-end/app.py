@@ -180,8 +180,8 @@ def get_site():
 
     return site_schema.jsonify(site)
 
-#PUT SITE
-@app.route("/site/<id>", methods=["PUT"])
+#PATCH SITE
+@app.route("/site/<id>", methods=["PATCH"])
 def update_site(id):
     site = Site.query.get(id)
 

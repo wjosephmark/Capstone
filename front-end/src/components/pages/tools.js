@@ -38,8 +38,6 @@ export default class Tool extends Component {
                             <p>Tool Type: {tool.tool_type}</p>
                             <p>Tool Site: {tool.site}</p>
                         </div>
-                        <button onClick={console.log(tool.id)}>Log tool</button>
-                        <button onClick={() => this.handleDeleteClick(tool)}>Delete</button>
                     </div>
                     )
                 })

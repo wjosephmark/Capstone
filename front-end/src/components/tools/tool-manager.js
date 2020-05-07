@@ -3,34 +3,76 @@ import axios from "axios"
 
 export default function Site(){
     const [tool, setTool] = useState([])
-    const [toolToEdit, setToolToEdit] = useState({})
     const [toolManufacturer, setToolManufacturer] = useState("")
     const [toolType, setToolType] = useState("")
     const [toolSite, setToolSite] =  useState("")
+    const [editMode, setEditMode] = useState(false)
+    const [editId, setEditId] = useState("")
 
 
     const handleEditClick = (tool) => {
         setToolManufacturer(tool.manufacturer)
         setToolType(tool.tool_type)
         setToolSite(tool.site)
+        setEditId(tool.id)
+        setEditMode(true)
+    }
+
+    const resetEditMode = () => {
+        setToolManufacturer(""),
+        setToolType(""),
+        setToolSite(""),
+        setEditId(""),
+        setEditMode(false)
+    }
+
+    const displayCancelButton = () => {
+        if(editMode) {
+            return(<button onClick={() => resetEditMode()}>Cancel</button>)
+        }
     }
 
     const handleSubmit = (event) => {
-        axios
-        .post("http://localhost:5000/add-tool", {
-            manufacturer: toolManufacturer,
-            tool_type: toolType,
-            site: toolSite
-        }).then(response => {
-            console.log("handleSubmit response: ", response)
-        }).then(
-            setToolManufacturer(""),
-            setToolType(""),
-            setToolSite("")
-        ).catch(error => {
-            console.log("handleSubmit error: ", error)
-        })
         event.preventDefault()
+        if(editMode){
+
+            displayCancelButton()
+
+            axios
+            .patch(`http://localhost:5000/tool/${editId}`, {
+                manufacturer: toolManufacturer,
+                tool_type: toolType,
+                site: toolSite  
+            })
+            .then((response) => {
+                console.log("Item Patched: ", response)
+            })
+            .then(() => {
+                setToolManufacturer(""),
+                setToolType(""),
+                setToolSite(""),
+                setEditId(""),
+                setEditMode(false)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+        } else {
+            axios
+            .post("http://localhost:5000/add-tool", {
+                manufacturer: toolManufacturer,
+                tool_type: toolType,
+                site: toolSite
+            }).then(response => {
+                console.log("handleSubmit response: ", response)
+            }).then(
+                setToolManufacturer(""),
+                setToolType(""),
+                setToolSite("")
+            ).catch(error => {
+                console.log("handleSubmit error: ", error)
+            })
+        }
     }
     
     const getTools = () => {
@@ -66,7 +108,6 @@ export default function Site(){
                             <p>Type: {tool.tool_type}</p>
                             <p>Site: {tool.site}</p>
                         </div>
-                        <button onClick={() => console.log(tool)}>Log tool</button>
                         <button onClick={() => handleEditClick(tool)}>Edit Tool</button>
                         <button onClick={() => deleteTool(tool.id)}>Delete</button>
                     </div>
@@ -113,6 +154,7 @@ export default function Site(){
                 </div>
                 <div>
                     <button type="submit">Save</button>
+                    {displayCancelButton()}
                 </div>
             </form>
         </div>
