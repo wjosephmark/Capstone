@@ -1,0 +1,30 @@
+.nav-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100px;
+    background-color: $tan;
+
+    .nav-link-wrapper{
+        text-decoration: none;
+        font-family: 'DM Mono', monospace;
+        color: $blue;
+        font-size: 1.25em;
+
+        &:active{
+            border-bottom: 2px $dblue solid;   
+        }
+
+        #link{
+            color: $blue;
+            text-decoration: none;
+
+            &:hover{
+                transition: ease-in-out .15s;
+                color: $dblue;
+                border-bottom: 2px $dblue solid;
+            }
+        }
+        
+    }
+}

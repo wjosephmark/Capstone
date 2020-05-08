@@ -11,21 +11,6 @@ export default class Tool extends Component {
             toolToEdit: {}
         }
         this.mapTools = this.mapTools.bind(this)
-        this.handleDeleteClick = this.handleDeleteClick.bind(this)
-    }
-
-    handleDeleteClick(tool){
-        axios
-            .delete(`http://localhost:5000/delete-tool/${tool.id}`)
-            // .then(this.setState({
-            //     tool: tool.filter(newTools =>{
-            //         return newTools.id !== tool
-            //     })
-            // }))
-            .then(console.log(tool))
-            .catch(err => {
-                console.log("deleteClick error: ", err)
-            })
     }
 
     mapTools(){
@@ -46,7 +31,7 @@ export default class Tool extends Component {
 
     getTools(){
         axios
-        .get("http://localhost:5000/tools")
+        .get("https://jm-capstone-back-end.herokuapp.com/tools")
         .then(response => {
             this.setState({
                 tool: [...response.data]

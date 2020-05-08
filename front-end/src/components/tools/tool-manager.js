@@ -3,6 +3,7 @@ import axios from "axios"
 
 export default function Site(){
     const [tool, setTool] = useState([])
+    const [newTool, setNewTool] = useState([])
     const [toolManufacturer, setToolManufacturer] = useState("")
     const [toolType, setToolType] = useState("")
     const [toolSite, setToolSite] =  useState("")
@@ -28,7 +29,7 @@ export default function Site(){
 
     const displayCancelButton = () => {
         if(editMode) {
-            return(<button onClick={() => resetEditMode()}>Cancel</button>)
+            return(<button className="btn" onClick={() => resetEditMode()}>Cancel</button>)
         }
     }
 
@@ -39,7 +40,7 @@ export default function Site(){
             displayCancelButton()
 
             axios
-            .patch(`http://localhost:5000/tool/${editId}`, {
+            .patch(`https://jm-capstone-back-end.herokuapp.com/tool/${editId}`, {
                 manufacturer: toolManufacturer,
                 tool_type: toolType,
                 site: toolSite  
@@ -59,13 +60,17 @@ export default function Site(){
             })
         } else {
             axios
-            .post("http://localhost:5000/add-tool", {
+            .post("https://jm-capstone-back-end.herokuapp.com/add-tool", {
                 manufacturer: toolManufacturer,
                 tool_type: toolType,
                 site: toolSite
             }).then(response => {
+                setNewTool(response)
                 console.log("handleSubmit response: ", response)
             }).then(
+                setTool(tool.concat)
+            ).then(
+                setNewTool(""),
                 setToolManufacturer(""),
                 setToolType(""),
                 setToolSite("")
@@ -77,7 +82,7 @@ export default function Site(){
     
     const getTools = () => {
         axios
-        .get("http://localhost:5000/tools")
+        .get("https://jm-capstone-back-end.herokuapp.com/tools")
         .then(response => {
             setTool([...response.data])
             mapTools()
@@ -88,7 +93,7 @@ export default function Site(){
     
     const deleteTool = id => {
         axios
-        .delete(`http://localhost:5000/delete-tool/${id}`)
+        .delete(`https://jm-capstone-back-end.herokuapp.com/delete-tool/${id}`)
         .then(setTool(tool.filter(tool => tool.id !== id)))
         .catch(err => console.log("Delete Tool err: ", err))
     }
@@ -103,13 +108,14 @@ export default function Site(){
                 return(
                     <div className="tool-thumb">
                         <div>
-                            <p>Tool ID: {tool.id}</p>
                             <p>Manufacturer: {tool.manufacturer}</p>
                             <p>Type: {tool.tool_type}</p>
                             <p>Site: {tool.site}</p>
                         </div>
-                        <button onClick={() => handleEditClick(tool)}>Edit Tool</button>
-                        <button onClick={() => deleteTool(tool.id)}>Delete</button>
+                        <div className="buttons">
+                            <button className="btn" onClick={() => handleEditClick(tool)}>Edit Tool</button>
+                            <button className="btn" onClick={() => deleteTool(tool.id)}>Delete</button>
+                        </div>
                     </div>
                     )
                 })
@@ -118,43 +124,50 @@ export default function Site(){
 
     return(
         <div className="app">
-            <h1>Tool Manager</h1>
+            <div className="page-title">
+                <h1>Tool Manager</h1>
+            </div>
 
             <div className="tool-cards-wrapper">
                 {mapTools()}
             </div>
 
-            <form onSubmit={handleSubmit}>
-                <div>
+            <form classname="form" onSubmit={handleSubmit}>
+                <div className="input-wrappers">
+                    <div>
+                        <input
+                            className="input"
+                            type="text"
+                            name="toolManufacturer"
+                            placeholder="Manufacturer"
+                            value={toolManufacturer}
+                            onChange={e => setToolManufacturer(e.target.value)}
+                        />
+                    </div>
+                    <div>
                     <input
+                        className="input"
                         type="text"
-                        name="toolManufacturer"
-                        placeholder="Manufacturer"
-                        value={toolManufacturer}
-                        onChange={e => setToolManufacturer(e.target.value)}
+                        name="toolType"
+                        placeholder="Type"
+                        value={toolType}
+                        onChange={e => setToolType(e.target.value)}
                     />
-                </div>
-                <div>
-                <input
-                    type="text"
-                    name="toolType"
-                    placeholder="Type"
-                    value={toolType}
-                    onChange={e => setToolType(e.target.value)}
-                />
-                </div>
-                <div>
-                    <input
-                        type="text"
-                        name="toolSite"
-                        placeholder="Site"
-                        value={toolSite}
-                        onChange={e => setToolSite(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <button type="submit">Save</button>
-                    {displayCancelButton()}
+                    </div>
+                    <div>
+                        <input
+                            className="input"
+                            type="text"
+                            name="toolSite"
+                            placeholder="Site"
+                            value={toolSite}
+                            onChange={e => setToolSite(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <button className="btn" type="submit">Save</button>
+                        {displayCancelButton()}
+                    </div>
                 </div>
             </form>
         </div>

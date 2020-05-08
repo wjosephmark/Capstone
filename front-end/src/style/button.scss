@@ -1,0 +1,21 @@
+.btn{
+    border-radius: 5px;
+    height: 35px;
+    width: 80px;
+    background-color: $blue;
+    color: $cream;
+    font-size: .7em;
+    font-family: 'DM Mono', monospace;
+
+    &:hover{
+        transition: ease-in-out .1s;
+        border-radius: 7px;
+        cursor: pointer;
+        background-color: $dblue;
+        box-shadow: 4px 4px 9px 0px rgba(93,92,97,0.54);
+    }
+
+    &:active{
+        background-color: white;
+    }
+}

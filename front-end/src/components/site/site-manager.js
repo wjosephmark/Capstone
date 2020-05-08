@@ -10,7 +10,7 @@ export default function SiteManager(){
 
     const deleteSite = id => {
         axios
-        .delete(`http://localhost:5000/delete-site/${id}`)
+        .delete(`https://jm-capstone-back-end.herokuapp.com/delete-site/${id}`)
         .then(setSites(sites.filter(site => site.id !== id)))
         .catch(err => console.log("Delete Tool err: ", err))
     }
@@ -24,7 +24,7 @@ export default function SiteManager(){
 
     const displayCancelButton = () => {
         if(editMode) {
-            return(<button onClick={() => resetEditMode()}>Cancel</button>)
+            return(<button className="btn" onClick={() => resetEditMode()}>Cancel</button>)
         }
     }
 
@@ -38,7 +38,7 @@ export default function SiteManager(){
 
     const getSites = () => {
         axios
-        .get("http://localhost:5000/sites")
+        .get("https://jm-capstone-back-end.herokuapp.com/sites")
         .then(response => {
             setSites([...response.data])
             mapSites()
@@ -52,7 +52,7 @@ export default function SiteManager(){
 
         if(editMode){
             axios
-            .patch(`http://localhost:5000/site/${editId}`, {
+            .patch(`https://jm-capstone-back-end.herokuapp.com/site/${editId}`, {
                 location: siteLocation,
                 superintendent: siteSuperintendent 
             })
@@ -70,7 +70,7 @@ export default function SiteManager(){
             })
         } else {
             axios
-            .post("http://localhost:5000/add-site", {
+            .post("https://jm-capstone-back-end.herokuapp.com/add-site", {
                 location: siteLocation,
                 superintendent: siteSuperintendent
             }).then(response => {
@@ -97,8 +97,8 @@ export default function SiteManager(){
                             <p>Superintendent: {site.superintendent}</p>
                         </div>
                         <div className="buttons">
-                            <button onClick={() => handleEditClick(site)}>Edit</button>
-                            <button onClick={() => deleteSite(site.id)}>Delete</button>
+                            <button className="btn" onClick={() => handleEditClick(site)}>Edit</button>
+                            <button className="btn" onClick={() => deleteSite(site.id)}>Delete</button>
                         </div>
                     </div>
                     )
@@ -121,6 +121,7 @@ export default function SiteManager(){
             <form onSubmit={handleSubmit}>
                 <div>
                     <input
+                        className="input"
                         type="text"
                         name="siteLocation"
                         placeholder="Location"
@@ -130,6 +131,7 @@ export default function SiteManager(){
                 </div>
                 <div>
                 <input
+                    className="input"
                     type="text"
                     name="siteSuperintendent"
                     placeholder="Superintendent"

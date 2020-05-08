@@ -1,0 +1,51 @@
+.app{
+    background-color: $grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+
+    .input-wrappers{
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        width: 1300px;
+        height: 300px;
+    }
+
+    .page-title{
+        color: $cream;
+        font-family: 'DM Mono', monospace;
+    }
+
+    .tool-cards-wrapper{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        justify-content: space-around;
+        width: 100%;
+        margin-right: -30px;
+
+        .tool-thumb{
+            box-shadow: 8px 8px 9px 0px rgba(0, 0, 0, 0);
+            // background-color: $ash;
+            background-color: $tan;
+            font-family: 'DM Mono', monospace;
+            width: 300px;
+            height: 250px;
+            margin: 10px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border: 1px black solid;
+
+            .buttons{
+                width: 250px;
+                display: flex;
+                justify-content: space-evenly;
+            }
+        }
+    }
+}

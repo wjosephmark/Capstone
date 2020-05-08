@@ -1,0 +1,17 @@
+.input{
+    font-family: 'DM Mono', monospace;
+    width:75%;
+    background-color: $ash;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    padding: 10px;
+    border:1.5px solid $blue;
+    border-radius: 12px;
+    color: $cream;
+
+    &:focus{
+        outline: none;
+        border:1.5px solid $dblue ;
+    }
+}

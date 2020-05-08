@@ -6,7 +6,7 @@ export default function Sites(){
 
     const getSites = () => {
         axios
-        .get("http://localhost:5000/sites")
+        .get("https://jm-capstone-back-end.herokuapp.com/sites")
         .then(response => {
             setSites([...response.data])
             mapSites()
