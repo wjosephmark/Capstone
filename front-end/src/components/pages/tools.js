@@ -1,60 +1,90 @@
-import React, {useState, useEffect, Component} from "react"
+import React, {useState, useEffect} from "react"
 import {Link} from "react-router-dom"
 import axios from "axios"
 
-export default class Tool extends Component {
-    constructor(props){
-        super(props) 
+export default function Tool() {
         
-        this.state={
-            tool: [],
-            toolToEdit: {}
-        }
-        this.mapTools = this.mapTools.bind(this)
+    const [tool, setTool] = useState([])
+    const [searchInput, setSearchInput] = useState("")
+    const [searchedTool, setSearchedTool] = useState([])
+
+    const handleSubmit = () => {
+        getSearchTools()
+        // mapSearchedTools()
     }
 
-    mapTools(){
+    const mapTools = () => {
         return(
-            this.state.tool.map(function(tool) {
+            tool.map(function(tool) {
                 return(
                     <div className="tool-thumb">
                         <div>
-                            <p>Tool ID: {tool.id}</p>
-                            <p>Tool Type: {tool.tool_type}</p>
-                            <p>Tool Site: {tool.site}</p>
+                            <p>Manufacturer: {tool.manufacturer}</p>
+                            <p>Type: {tool.tool_type}</p>
+                            <p>Site: {tool.site}</p>
                         </div>
                     </div>
-                    )
-                })
+                )
+            })
         )
     }
-
-    getTools(){
+    
+    const getSearchTools = () => {
         axios
         .get("https://jm-capstone-back-end.herokuapp.com/tools")
         .then(response => {
-            this.setState({
-                tool: [...response.data]
-            })
-            this.mapTools()
+            setSearchedTool([...response.data.filter(item => {
+                if(item.manufacturer.toLowerCase().includes(searchInput)){
+                    console.log(item)
+                    return item
+                } else if(item.toLowerCase().includes(searchInput)){
+                    console.log(item)
+                    return item
+                } else if(item.toLowerCase().includes(searchInput)){
+                    console.log(item)
+                    return item
+                }
+            })])
+            mapTools()
+        }).catch(error => {
+            console.log("getBlogItem error: ", error)
+        }) 
+    }
+
+
+    const getTools = () => {
+        axios
+        .get("https://jm-capstone-back-end.herokuapp.com/tools")
+        .then(response => {
+            setTool([...response.data])
+            mapTools()
         }).catch(error => {
             console.log("getBlogItem error: ", error)
         })
     }
 
-    componentDidMount(){
-       this.getTools()
-    }
+    useEffect(() => {
+        getTools()
+    }, [])
 
-    
-    render(){
+
         return(
             <div className="app">
+                <div className="search-bar-wrapper">
+                    <form onSubmit={handleSubmit}>
+                        <input 
+                        onChange={e => setSearchInput(e.target.value)}
+                        placeholder="Search"
+                        className="input"
+                        />
+                        <button type="submit" className="btn">Search</button>
+                    </form>
+                </div>
                 <div className="tool-cards-wrapper">
-                    <p>{this.mapTools()}</p>
+                    {mapSearchedTools()}
+                    {mapTools()}
                 </div>
             </div>
         )
-    }
 
 }

@@ -3,7 +3,7 @@ import axios from "axios"
 
 export default function Site(){
     const [tool, setTool] = useState([])
-    const [newTool, setNewTool] = useState([])
+    const [newTool, setNewTool] = useState("")
     const [toolManufacturer, setToolManufacturer] = useState("")
     const [toolType, setToolType] = useState("")
     const [toolSite, setToolSite] =  useState("")
@@ -65,12 +65,11 @@ export default function Site(){
                 tool_type: toolType,
                 site: toolSite
             }).then(response => {
-                setNewTool(response)
-                console.log("handleSubmit response: ", response)
+                console.log("handleSubmit response: ", response),
+                setNewToolFunction(response)
+                getTools()
+                mapTools()
             }).then(
-                setTool(tool.concat)
-            ).then(
-                setNewTool(""),
                 setToolManufacturer(""),
                 setToolType(""),
                 setToolSite("")
@@ -78,6 +77,13 @@ export default function Site(){
                 console.log("handleSubmit error: ", error)
             })
         }
+    }
+
+    const setNewToolFunction = (response) => {
+        // console.log(response.data)
+        setNewTool("new tool data :", ...response.data)
+        console.log(newTool)
+
     }
     
     const getTools = () => {
@@ -132,7 +138,7 @@ export default function Site(){
                 {mapTools()}
             </div>
 
-            <form classname="form" onSubmit={handleSubmit}>
+            <form className="form" onSubmit={handleSubmit}>
                 <div className="input-wrappers">
                     <div>
                         <input
