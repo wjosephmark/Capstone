@@ -3,13 +3,14 @@ import axios from "axios"
 
 export default function Site(){
     const [tool, setTool] = useState([])
-    const [newTool, setNewTool] = useState("")
+    const [searchedTool, setSearchedTool] = useState([])
     const [toolManufacturer, setToolManufacturer] = useState("")
     const [toolType, setToolType] = useState("")
     const [toolSite, setToolSite] =  useState("")
     const [editMode, setEditMode] = useState(false)
     const [editId, setEditId] = useState("")
-
+    const [searchInput, setSearchInput] = useState("")
+    const [returnSearched, setReturnSearched] = useState(false)
 
     const handleEditClick = (tool) => {
         setToolManufacturer(tool.manufacturer)
@@ -47,6 +48,8 @@ export default function Site(){
             })
             .then((response) => {
                 console.log("Item Patched: ", response)
+                getTools()
+                mapTools()
             })
             .then(() => {
                 setToolManufacturer(""),
@@ -66,7 +69,6 @@ export default function Site(){
                 site: toolSite
             }).then(response => {
                 console.log("handleSubmit response: ", response),
-                setNewToolFunction(response)
                 getTools()
                 mapTools()
             }).then(
@@ -77,13 +79,6 @@ export default function Site(){
                 console.log("handleSubmit error: ", error)
             })
         }
-    }
-
-    const setNewToolFunction = (response) => {
-        // console.log(response.data)
-        setNewTool("new tool data :", ...response.data)
-        console.log(newTool)
-
     }
     
     const getTools = () => {
@@ -103,35 +98,101 @@ export default function Site(){
         .then(setTool(tool.filter(tool => tool.id !== id)))
         .catch(err => console.log("Delete Tool err: ", err))
     }
-    
+
+    const getSearchTools = () => {
+
+        setReturnSearched(true)
+        
+        axios
+        .get("https://jm-capstone-back-end.herokuapp.com/tools")
+        .then(response => {
+            setSearchedTool([...response.data.filter(item => {
+                if(item.manufacturer.toLowerCase().includes(searchInput)){
+                    console.log(item)
+                    return item
+                } else if(item.tool_type.toLowerCase().includes(searchInput)){
+                    console.log(item)
+                    return item
+                } else if(item.site.toLowerCase().includes(searchInput)){
+                    console.log(item)
+                    return item
+                }
+            })])
+            console.log(searchedTool)
+            mapTools()
+        }).catch(error => {
+            console.log("getBlogItem error: ", error)
+        }) 
+    }
+
+    const handleShowAllTools = () => {
+        setReturnSearched(false)
+        mapTools()
+    }
+
+    const mapTools = () => {
+        if(!returnSearched){
+            return(
+                tool.map(function(tool) {
+                    return(
+                        <div className="tool-thumb">
+                            <div>
+                                <p>Manufacturer: {tool.manufacturer}</p>
+                                <p>Type: {tool.tool_type}</p>
+                                <p>Site: {tool.site}</p>
+                            </div>
+                            <div className="buttons">
+                                <button className="btn" onClick={() => handleEditClick(tool)}>Edit Tool</button>
+                                <button className="btn" onClick={() => deleteTool(tool.id)}>Delete</button>
+                            </div>
+                        </div>
+                    )
+                })
+            )
+        } else {
+            return(
+                searchedTool.map(function(tool) {
+                    return(
+                        <div className="tool-thumb">
+                            <div>
+                                <p>Manufacturer: {tool.manufacturer}</p>
+                                <p>Type: {tool.tool_type}</p>
+                                <p>Site: {tool.site}</p>
+                            </div>
+                            <div className="buttons">
+                                <button className="btn" onClick={() => handleEditClick(tool)}>Edit Tool</button>
+                                <button className="btn" onClick={() => deleteTool(tool.id)}>Delete</button>
+                            </div>
+                        </div>
+                    )
+                })
+            )
+        }
+    }
+
+
     useEffect(() => {
         getTools()
     }, [])
 
-    const mapTools = () => {
-        return(
-            tool.map(function(tool) {
-                return(
-                    <div className="tool-thumb">
-                        <div>
-                            <p>Manufacturer: {tool.manufacturer}</p>
-                            <p>Type: {tool.tool_type}</p>
-                            <p>Site: {tool.site}</p>
-                        </div>
-                        <div className="buttons">
-                            <button className="btn" onClick={() => handleEditClick(tool)}>Edit Tool</button>
-                            <button className="btn" onClick={() => deleteTool(tool.id)}>Delete</button>
-                        </div>
-                    </div>
-                    )
-                })
-        )
-    }
 
     return(
         <div className="app">
             <div className="page-title">
                 <h1>Tool Manager</h1>
+            </div>
+
+            <div className="search-wrapper">
+                <input 
+                onChange={e => setSearchInput(e.target.value)}
+                placeholder="Search"
+                className="input"
+                />
+            </div>
+
+            <div className="button-wrapper">
+                <button className="btn" onClick={() => getSearchTools()}>Search</button>
+                <button className="btn" onClick={() => handleShowAllTools()}>Show all tools</button>
             </div>
 
             <div className="tool-cards-wrapper">

@@ -2,9 +2,9 @@
     background-color: $grey;
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
     width: 100%;
+    min-height: 1000px;
 
     .input-wrappers{
         display: flex;
@@ -12,6 +12,22 @@
         flex-direction: column;
         width: 1300px;
         height: 300px;
+    }
+
+    .button-wrapper{
+        height: 50px;
+        width: 200px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .search-wrapper{
+        height: 100px;
+        width: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .page-title{

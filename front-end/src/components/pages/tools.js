@@ -7,29 +7,44 @@ export default function Tool() {
     const [tool, setTool] = useState([])
     const [searchInput, setSearchInput] = useState("")
     const [searchedTool, setSearchedTool] = useState([])
-
-    const handleSubmit = () => {
-        getSearchTools()
-        // mapSearchedTools()
-    }
+    const [returnSearched, setReturnSearched] = useState(false)
 
     const mapTools = () => {
-        return(
-            tool.map(function(tool) {
-                return(
-                    <div className="tool-thumb">
-                        <div>
-                            <p>Manufacturer: {tool.manufacturer}</p>
-                            <p>Type: {tool.tool_type}</p>
-                            <p>Site: {tool.site}</p>
+        if(!returnSearched){
+            return(
+                tool.map(function(tool) {
+                    return(
+                        <div className="tool-thumb">
+                            <div>
+                                <p>Manufacturer: {tool.manufacturer}</p>
+                                <p>Type: {tool.tool_type}</p>
+                                <p>Site: {tool.site}</p>
+                            </div>
                         </div>
-                    </div>
-                )
-            })
-        )
+                    )
+                })
+            )
+        } else {
+            return(
+                searchedTool.map(function(tool) {
+                    return(
+                        <div className="tool-thumb">
+                            <div>
+                                <p>Manufacturer: {tool.manufacturer}</p>
+                                <p>Type: {tool.tool_type}</p>
+                                <p>Site: {tool.site}</p>
+                            </div>
+                        </div>
+                    )
+                })
+            )
+        }
     }
-    
+
     const getSearchTools = () => {
+
+        setReturnSearched(true)
+        
         axios
         .get("https://jm-capstone-back-end.herokuapp.com/tools")
         .then(response => {
@@ -37,14 +52,15 @@ export default function Tool() {
                 if(item.manufacturer.toLowerCase().includes(searchInput)){
                     console.log(item)
                     return item
-                } else if(item.toLowerCase().includes(searchInput)){
+                } else if(item.tool_type.toLowerCase().includes(searchInput)){
                     console.log(item)
                     return item
-                } else if(item.toLowerCase().includes(searchInput)){
+                } else if(item.site.toLowerCase().includes(searchInput)){
                     console.log(item)
                     return item
                 }
             })])
+            console.log(searchedTool)
             mapTools()
         }).catch(error => {
             console.log("getBlogItem error: ", error)
@@ -63,6 +79,12 @@ export default function Tool() {
         })
     }
 
+    const handleShowAllTools = () => {
+        setReturnSearched(false)
+        mapTools()
+    }
+
+
     useEffect(() => {
         getTools()
     }, [])
@@ -70,18 +92,19 @@ export default function Tool() {
 
         return(
             <div className="app">
-                <div className="search-bar-wrapper">
-                    <form onSubmit={handleSubmit}>
-                        <input 
-                        onChange={e => setSearchInput(e.target.value)}
-                        placeholder="Search"
-                        className="input"
-                        />
-                        <button type="submit" className="btn">Search</button>
-                    </form>
+                <div className="search-wrapper">
+                    <input 
+                    onChange={e => setSearchInput(e.target.value)}
+                    placeholder="Search"
+                    className="input"
+                    />
+                </div>
+
+                <div className="button-wrapper">
+                    <button className="btn" onClick={() => getSearchTools()}>Search</button>
+                    <button className="btn" onClick={() => handleShowAllTools()}>Show all tools</button>
                 </div>
                 <div className="tool-cards-wrapper">
-                    {mapSearchedTools()}
                     {mapTools()}
                 </div>
             </div>

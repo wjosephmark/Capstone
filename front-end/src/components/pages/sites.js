@@ -4,6 +4,8 @@ import axios from "axios"
 export default function Sites(){
     const [sites, setSites] = useState([])
     const [tools, setTools] = useState([])
+    const [searchInput, setSearchInput] = useState("")
+    const [searchedTool, setSearchedTool] = useState([])
 
     const getSites = () => {
         axios
