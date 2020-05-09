@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react"
 import axios from "axios"
+import {navigate} from "hookrouter"
+
 
 export default function Sites(){
     const [sites, setSites] = useState([])
@@ -37,11 +39,15 @@ export default function Sites(){
         getTools(location)
     } 
 
+    const handleSiteClick = (id) => {
+        navigate(`/sites/${id}`)
+    }
+
     const mapSites = () => {
         return(
             sites.map(function(site) {
                 return(
-                    <div className="site-thumb">
+                    <div className="site-thumb" onClick={() => handleSiteClick(site.id)}>
                         <div className="site-info">
                             <p>Location: {site.location}</p>
                             <p>Superintendent: {site.location}</p>
