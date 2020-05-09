@@ -48,6 +48,7 @@ export default function Tool() {
         axios
         .get("https://jm-capstone-back-end.herokuapp.com/tools")
         .then(response => {
+            setSearchInput("")
             setSearchedTool([...response.data.filter(item => {
                 if(item.manufacturer.toLowerCase().includes(searchInput)){
                     console.log(item)

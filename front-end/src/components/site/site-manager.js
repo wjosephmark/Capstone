@@ -74,13 +74,12 @@ export default function SiteManager(){
                 location: siteLocation,
                 superintendent: siteSuperintendent
             }).then(response => {
+                getSites()
+                mapSites()
                 console.log("handleSubmit response: ", response)
             }).then(
                 setSiteSuperintendent(""),
                 setSiteLocation("")
-            ).then(
-                getSites(),
-                mapSites()
             ).catch(error => {
                 console.log("handleSubmit error: ", error)
             })
@@ -92,11 +91,11 @@ export default function SiteManager(){
             sites.map(function(site) {
                 return(
                     <div className="site-thumb">
-                        <div>
+                        <div className="site-info">
                             <p>Location: {site.location}</p>
                             <p>Superintendent: {site.superintendent}</p>
                         </div>
-                        <div className="buttons">
+                        <div className="site-buttons">
                             <button className="btn" onClick={() => handleEditClick(site)}>Edit</button>
                             <button className="btn" onClick={() => deleteSite(site.id)}>Delete</button>
                         </div>
@@ -118,7 +117,7 @@ export default function SiteManager(){
                 {mapSites()}
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <form className="form" onSubmit={handleSubmit}>
                 <div>
                     <input
                         className="input"
@@ -140,7 +139,7 @@ export default function SiteManager(){
                 />
                 </div>
                 <div>
-                    <button type="submit">Save</button>
+                    <button className="btn" type="submit">Save</button>
                     {displayCancelButton()}
                 </div>
             </form>
