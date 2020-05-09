@@ -42,9 +42,11 @@ export default function Sites(){
             sites.map(function(site) {
                 return(
                     <div className="site-thumb">
-                        <div>
+                        <div className="site-info">
                             <p>Location: {site.location}</p>
                             <p>Superintendent: {site.location}</p>
+                        </div>
+                        <div className="site-buttons">
                             <button className="btn" onClick={() => showTools(site.location)}>Show Tools</button>
                         </div>
                     </div>
