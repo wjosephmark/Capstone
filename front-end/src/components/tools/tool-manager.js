@@ -170,11 +170,9 @@ export default function Site(){
         }
     }
 
-
     useEffect(() => {
         getTools()
     }, [])
-
 
     return(
         <div className="app">

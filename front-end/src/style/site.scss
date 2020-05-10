@@ -1,0 +1,66 @@
+.site-app{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: $grey;
+    width: 100%;
+    min-height: 800px;
+    font-family: 'DM Mono', monospace;
+
+    .show-sites-button{
+        width: 218%;
+        height: 75px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .no-tools-wrapper{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        h1{
+            color: $cream;
+        }
+    }
+
+    .site-page-title{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        height: 1%;
+        justify-content: center;
+        color: $cream;
+    }
+
+    .tool-cards-wrapper-site{
+        width: 218%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-content: space-around;
+        margin-right: -30px;
+        box-sizing: border-box;
+        text-align: center;
+
+        .tool-thumb{
+            box-shadow: 8px 8px 9px 0px rgba(0, 0, 0, 0);
+            // background-color: $ash;
+            background-color: $tan;
+            font-family: 'DM Mono', monospace;
+            width: 70%;
+            height: 250px;
+            margin: 10px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border: 1px black solid;
+            border: $blue solid 3px;
+            box-shadow: 10px 10px 13px 0px rgba(0,0,0,0.75);
+        }
+    }
+}
