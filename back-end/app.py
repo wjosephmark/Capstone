@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
 from flask_heroku import Heroku
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
 from environs import Env
 import os
 
@@ -20,6 +22,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
+
+migrate = Migrate(app, db)
+manager = Manager(app)
+
+manager.add_command('db', MigrateCommand)
 
 class Tool(db.Model):
     __tablename__ = "Tools"
@@ -57,40 +64,21 @@ class SiteSchema(ma.Schema):
 site_schema = SiteSchema()
 sites_schema = SiteSchema(many=True)
 
-class Superintendent(db.Model):
-    __tablename__ = "Superintendent"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    site = db.Column(db.String(150), nullable=False)
-
-    def __init__(self, name, site):
-        self.name = name
-        self.site = site
-        
-class SuperintendentSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'name', 'site')
-
-superintendent_schema = SuperintendentSchema()
-superintendents_schema = SuperintendentSchema(many=True)
-
 class User(db.Model):
     __tablename__ = "Users"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(50), nullable=False)
-    role = db.Column(db.String(50), nullable=False)
 
-    def __init__(self, name, email, password, role):
+    def __init__(self, name, email, password):
         self.name = name
         self.email = email
         self.password = password
-        self.role = role
 
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'name', 'email', 'password', 'role')
+        fields = ('id', 'name', 'email', 'password')
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
@@ -123,7 +111,7 @@ def get_tools():
 def get_tool(id):
     tool = Tool.query.get(id)
 
-    return tool_schema.jsonify(tool)
+    return tool_schema.jsonify(tool) 
 
 #PATCH TOOL
 @app.route("/tool/<id>", methods=["PATCH"])
@@ -201,64 +189,71 @@ def delete_site(id):
 
     db.session.delete(site)
     db.session.commit()
-
     return jsonify("DELETED!")
 
-if __name__ == "__main__":
-    app.run(debug = True)
-
-#POST SUPERINTENDENT
-@app.route("/add-superintendent", methods=["POST"])
-def add_superintendent():
+#POST USER
+@app.route("/add-user", methods=["POST"])
+def add_user():
     name = request.json["name"]
-    location = request.json["location"]
+    email = request.json["email"]
+    password = request.json["password"]
 
-    new_superintendent = Superintendent(name, location)
 
-    db.session.add(new_superintendent)
+    new_user = User(name, email, password)
+
+    db.session.add(new_user)
     db.session.commit()
 
-    superintendent = Superintendent.query.get(new_superintendent.id)
-    return superintendent_schema.jsonify(superintendent)
+    user = User.query.get(new_user.id)
+    return user_schema.jsonify(user)
 
-#GET SUPERINTENDENT
-@app.route("/superintendents", methods=["GET"])
-def get_superintendents():
-    all_superintendents = Superintendent.query.all()
-    result = superintendents_schema.dump_all()
+#GET USER
+@app.route("/users", methods=["GET"])
+def get_users():
+    all_users = User.query.all()
+    result = users_schema.dump(all_users)
 
     return jsonify(result)
 
-#GET SUPERINTENDENT
-@app.route("/superintendent/<id>", methods=["GET"])
-def get_superintendent():
-    superintendent = Superintendent.query.get(id)
 
-    return superintendent_schema.jsonify(superintendent)
+#GET ONE USER
+@app.route("/user/<id>", methods=["GET"])
+def get_user():
+    user = User.query.get(id)
 
-#PUT SUPERINTENDENT
-@app.route("/superintendent/<id>", methods=["PUT"])
-def update_superintendent(id):
-    superintendent = Superintendent.query.get(id)
+    return user_schema.jsonify(user)
+
+#PUT USER
+@app.route("/user/<id>", methods=["PUT"])
+def update_user(id):
+    user = User.query.get(id)
 
     new_name = request.json["name"]
-    new_site = request.json["site"]
+    new_email = request.json["email"]
+    new_password = request.json["password"]
 
-    superintendent.name = new_name
-    superintendent.site = new_site
+    user.name = new_name
+    user.email = new_email
+    user.password = new_password
+    
 
     db.session.commit()
-    return site_schema.jsonify(superintendent)
+    return user_schema.jsonify(user)
 
-#DELETE SUPERINTENDENT
-@app.route("/delete-superintendent/<id>", methods=["DELETE"])
-def delete_superintendent(id):
-    superintendent = Superintendent.query.get(id)
+@app.route("/")
+def get_home():
+    return "<h1>Home</h1>"
 
-    db.session.delete(superintendent)
+#DELETE USER
+@app.route("/delete-user/<id>", methods=["DELETE"])
+def delete_user(id):
+    user = User.query.get(id)
+
+    db.session.delete(user)
     db.session.commit()
 
     return jsonify("DELETED!")
 
 if __name__ == "__main__":
     app.run(debug = True)
+    # manager.run()

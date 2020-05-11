@@ -11,6 +11,7 @@ import Home from "./components/pages/home";
 import Site from "./components/pages/sites";
 import SiteManager from "./components/site/site-manager"
 import SiteForm from "./components/site/site-form"
+import Auth from "./components/auth/auth"
 
 import "./style/main.scss";
 
@@ -20,7 +21,12 @@ const routes = {
   "/sites": () => <Site />,
   "/tool-manager": () => <ToolManager />,
   "/site-manager": () => <SiteManager />,
-  "/sites/:id": ({id}) => <SiteForm id={id}/>
+  "/auth": () => <Auth handleSuccessfulAuth={handleSuccessfulAuth}/>
+}
+
+const handleSuccessfulAuth = () => {
+  console.log("You mf bad bitch, you did it!!")
+  setLoggedInStatus("Logged In Baby!! ;)")
 }
 
 function Main() {

@@ -14,6 +14,8 @@ flask-heroku = "*"
 environs = "*"
 gunicorn = "*"
 marshmallow-sqlalchemy = "*"
+flask-migrate = "*"
+flask-script = "*"
 
 [requires]
 python_version = "3.8"
