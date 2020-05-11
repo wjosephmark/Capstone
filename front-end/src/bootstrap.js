@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { useRoutes, A } from "hookrouter";
 import { createStore, applyMiddleware } from "redux";
@@ -15,43 +15,79 @@ import Auth from "./components/auth/auth"
 
 import "./style/main.scss";
 
-const routes = {
-  "/": () => <App />,
-  "/tools": () => <Tool />,
-  "/sites": () => <Site />,
-  "/tool-manager": () => <ToolManager />,
-  "/site-manager": () => <SiteManager />,
-  "/auth": () => <Auth handleSuccessfulAuth={handleSuccessfulAuth}/>
-}
-
-const handleSuccessfulAuth = () => {
-  console.log("You mf bad bitch, you did it!!")
-  setLoggedInStatus("Logged In Baby!! ;)")
-}
 
 function Main() {
-  return(
-    <div>
-      <div className="nav-wrapper">
-        <div className="nav-link-wrapper">
-          <A href="/">Home</A>
+  const [loggedInStatus, setLoggedInStatus] = useState("Not Logged In")
+  
+  const routes = () => {
+    if(loggedInStatus === "Logged In"){
+      return({
+      "/": () => <App />,
+      "/tools": () => <Tool />,
+      "/sites": () => <Site />,
+      "/tool-manager": () => <ToolManager />,
+      "/site-manager": () => <SiteManager />,
+      "/auth": () => <Auth loggedInStatus={loggedInStatus} setLoggedInStatus={setLoggedInStatus}/>
+      })
+    } else {
+      return({
+      "/": () => <App />,
+      "/tools": () => <Tool />,
+      "/sites": () => <Site />,
+      "/auth": () => <Auth loggedInStatus={loggedInStatus} setLoggedInStatus={setLoggedInStatus}/>
+      })
+    }
+  }
+
+  const handleSignOut = () => {
+    setLoggedInStatus("Not Logged In")
+  }
+
+  if(loggedInStatus === "Logged In") {
+    return(
+      <div>
+        <div className="nav-wrapper">
+          <div className="nav-link-wrapper">
+            <A href="/">Home</A>
+          </div>
+          <div className="nav-link-wrapper">
+            <A href="/tools">Tools</A>
+          </div>
+          <div className="nav-link-wrapper">
+            <A href="/sites">Sites</A>
+          </div>
+          <div className="nav-link-wrapper">
+            <A href="/tool-manager">Tool Manager</A>
+          </div>
+          <div className="nav-link-wrapper">
+            <A href="/site-manager">Site Manager</A>
+          </div>
+          <div>
+            <button className="btn" onClick={() => handleSignOut()}>Sign Out</button>
+          </div>
         </div>
-        <div className="nav-link-wrapper">
-          <A href="/tools">Tools</A>
-        </div>
-        <div className="nav-link-wrapper">
-          <A href="/sites">Sites</A>
-        </div>
-        <div className="nav-link-wrapper">
-          <A href="/tool-manager">Tool Manager</A>
-        </div>
-        <div className="nav-link-wrapper">
-          <A href="/site-manager">Site Manager</A>
-        </div>
+        {useRoutes(routes())}
       </div>
-      {useRoutes(routes)}
-    </div>
-  )
+    )
+  } else {
+    return(
+      <div>
+        <div className="nav-wrapper">
+          <div className="nav-link-wrapper">
+            <A href="/">Home</A>
+          </div>
+          <div className="nav-link-wrapper">
+            <A href="/tools">Tools</A>
+          </div>
+          <div className="nav-link-wrapper">
+            <A href="/sites">Sites</A>
+          </div>
+        </div>
+        {useRoutes(routes())}
+      </div>
+    )
+  }
 }
 
 ReactDOM.render(<Main />, document.querySelector(".app-wrapper"))
+

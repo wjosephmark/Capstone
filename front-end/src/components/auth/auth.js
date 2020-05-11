@@ -2,15 +2,13 @@ import React, {useState, useEffect} from "react"
 import axios from "axios"
 import {navigate} from "hookrouter"
 
-export default function Auth() {
-    const [loggedInStatus, setLoggedInStatus] = useState("Not Logged In")
+export default function Auth(props) {
+    // const [loggedInStatus, setLoggedInStatus] = useState("Not Logged In")
     const [inputText, setInputText] = useState("")
     const [passwordText, setPasswordText] = useState("")
     const [responseData, setResponseData] = useState("")
 
-
-    const getUsers = (e) => {
-        // e.preventDefault()
+    const getUsers = () => {
         axios
         .get("http://localhost:5000/users")
         .then(response => {
@@ -36,13 +34,13 @@ export default function Auth() {
 
     const handleSuccessfulAuth = () => {
         console.log("You mf bad bitch, you did it!!")
-        setLoggedInStatus("Logged In Baby!! ;)")
-    }
+        props.setLoggedInStatus("Logged In")
+      }
 
     return(
         <div className="app">
             <div>
-                <h1>{loggedInStatus}</h1>
+                <h1>{props.loggedInStatus}</h1>
             </div>
             <form>
                 <input 
@@ -59,6 +57,8 @@ export default function Auth() {
                 />
             </form>
             <button onClick={() => getUsers()} className="btn">Login</button>
+            <button onClick={() => test()} className="btn">test</button>
+
         </div>
     )
 }
