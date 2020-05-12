@@ -39,18 +39,20 @@ export default function Auth(props) {
 
     return(
         <div className="app">
-            <div>
+            <div className="page-title">
                 <h1>{props.loggedInStatus}</h1>
             </div>
-            <form>
+            <form className="auth-form">
                 <input 
                 placeholder="email"
+                className="auth-input"
                 type="text"
                 name="email"
                 onChange={e => setInputText(e.target.value)}
                 />
                 <input
                 placeholder="password"
+                className="auth-input"
                 type="password"
                 name="password"
                 onChange={e => setPasswordText(e.target.value)}

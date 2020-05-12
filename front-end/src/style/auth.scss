@@ -1,0 +1,25 @@
+.auth-form{
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    width: 300px;
+
+    .auth-input{
+        font-family: 'DM Mono', monospace;
+        widows: 100%;
+        background-color: $ash;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        padding: 10px;
+        border:1.5px solid $blue;
+        border-radius: 12px;
+        color: $cream;
+        width: 100%;
+
+    &:focus{
+        outline: none;
+        border:1.5px solid $dblue ;
+    }
+    }
+}

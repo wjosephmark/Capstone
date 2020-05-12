@@ -8,7 +8,7 @@ export default class Home extends Component {
     render(){
         return(
             <div className="app">
-                <h1>Hello from Home</h1>
+                <h1>Welcome to your Tool Tracker!</h1>
             </div>
         )
     }
