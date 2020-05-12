@@ -45,6 +45,7 @@
     "babel-preset-env": "^1.7.0",
     "clean-webpack-plugin": "^0.1.16",
     "copy-webpack-plugin": "^4.5.2",
+    "create-react-app": "^3.4.1",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "eslint": "^4.2.0",

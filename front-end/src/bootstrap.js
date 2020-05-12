@@ -82,6 +82,9 @@ function Main() {
           <div className="nav-link-wrapper">
             <A href="/sites">Sites</A>
           </div>
+          <div className="nav-link-wrapper">
+            <A href="/auth">Login</A>
+          </div>
         </div>
         {useRoutes(routes())}
       </div>
