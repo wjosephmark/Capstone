@@ -83,14 +83,14 @@ export default function Sites(props){
                     tools.map(function(tool) {
                         return(
                             <div>
-                                <div className="show-sites-button">
-                                    <button className="btn" onClick={() => handleShowSites()}>Show sites</button>
-                                </div>
                                 <div className="tool-cards-wrapper-site">
                                     <div className="tool-thumb">
                                         <p>Manufacturer: {tool.manufacturer}</p>
                                         <p>Type: {tool.tool_type}</p>
                                         <p>Site: {tool.site}</p>
+                                        <div className="show-sites-button">
+                    <button className="btn" onClick={() => handleShowSites()}>Show sites</button>
+                </div>
                                     </div>
                                 </div>
                             </div>
@@ -98,6 +98,14 @@ export default function Sites(props){
                         })
                 )
             }
+        }
+    }
+
+    const showSitesButton = () => {
+        if(!toolsOrSites){
+            return(
+                null
+            )
         }
     }
 
@@ -127,6 +135,7 @@ export default function Sites(props){
             <h1 className="site-page-title">
                 sites
             </h1>
+            {showSitesButton()}
             {mapSites()}
         </div>
 

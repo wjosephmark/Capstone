@@ -10,7 +10,7 @@ export default function Auth(props) {
 
     const getUsers = () => {
         axios
-        .get("http://localhost:5000/users")
+        .get("https://jm-capstone-back-end.herokuapp.com/users")
         .then(response => {
             console.log("response data", response.data)
 
@@ -57,8 +57,6 @@ export default function Auth(props) {
                 />
             </form>
             <button onClick={() => getUsers()} className="btn">Login</button>
-            <button onClick={() => test()} className="btn">test</button>
-
         </div>
     )
 }
