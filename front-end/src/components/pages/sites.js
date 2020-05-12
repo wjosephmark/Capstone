@@ -89,8 +89,8 @@ export default function Sites(props){
                                         <p>Type: {tool.tool_type}</p>
                                         <p>Site: {tool.site}</p>
                                         <div className="show-sites-button">
-                    <button className="btn" onClick={() => handleShowSites()}>Show sites</button>
-                </div>
+                                            <button className="btn" onClick={() => handleShowSites()}>Show sites</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
