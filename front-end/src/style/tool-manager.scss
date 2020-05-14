@@ -1,3 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
 .app{
     background-color: $grey;
     display: flex;
@@ -59,6 +64,7 @@
             border: 1px black solid;
             border: $blue solid 3px;
             box-shadow: 10px 10px 13px 0px rgba(0,0,0,0.75);
+            font-size: 1.2vw;
 
             .buttons{
                 width: 250px;

@@ -25,19 +25,27 @@ export default function Tool() {
                 })
             )
         } else {
-            return(
-                searchedTool.map(function(tool) {
-                    return(
-                        <div className="tool-thumb">
-                            <div>
-                                <p>Manufacturer: {tool.manufacturer}</p>
-                                <p>Type: {tool.tool_type}</p>
-                                <p>Site: {tool.site}</p>
+            if(searchedTool.length > 0){
+                return(
+                    searchedTool.map(function(tool) {
+                        return(
+                            <div className="tool-thumb">
+                                <div>
+                                    <p>Manufacturer: {tool.manufacturer}</p>
+                                    <p>Type: {tool.tool_type}</p>
+                                    <p>Site: {tool.site}</p>
+                                </div>
                             </div>
-                        </div>
-                    )
-                })
-            )
+                        )
+                    })
+                )
+            } else {
+                return(
+                    <div className="page-title">
+                        <h1>No tools match search.</h1>
+                    </div>
+                )
+            }
         }
     }
 

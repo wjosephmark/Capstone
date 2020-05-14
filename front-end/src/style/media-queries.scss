@@ -1,0 +1,12 @@
+@media (max-width: 800px){
+
+    .app{
+        .tool-cards-wrapper{
+            grid-template-columns: 1fr 1fr;
+
+            .tool-thumb{
+                height: 150px;
+            }
+        }
+    }
+}
