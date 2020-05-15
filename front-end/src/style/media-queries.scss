@@ -1,12 +1,46 @@
 @media (max-width: 800px){
+    .site-app{
+        .sites-card-wrapper{
+            .site-thumb{
+                .site-info{
+                    p{
+                        font-size: 8px;
+                    }
+                }
+            }
+        }
+    }
 
     .app{
+        .btn{
+            font-size: 8px ;
+        }
+
         .tool-cards-wrapper{
             grid-template-columns: 1fr 1fr;
 
             .tool-thumb{
                 height: 150px;
+                font-size: 8px;
             }
         }
+
+        // HOME
+
+        .page-title{
+            font-size: 12px;
+        }
+
+        .nav-wrapper{
+            .nav-link-wrapper{
+              a{
+                  color: red;
+              }  
+            }
+        }
+
+        //SITE
+
     }
+
 }

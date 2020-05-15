@@ -104,7 +104,7 @@ export default function Site(){
         setReturnSearched(true)
         
         axios
-        .get("https://jm-capstone-back-end.herokuapp.com/")
+        .get("https://jm-capstone-back-end.herokuapp.com/tools")
         .then(response => {
             setSearchedTool([...response.data.filter(item => {
                 if(item.manufacturer.toLowerCase().includes(searchInput)){
