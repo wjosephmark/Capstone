@@ -70,7 +70,6 @@ export default function Sites(props){
                 })
             )
         } else if(!toolsOrSites){
-            console.log(tools)
             if(tools.length === 0){
                 return(
                     <div className="no-tools-wrapper">
