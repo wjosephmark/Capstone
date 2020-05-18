@@ -54,6 +54,7 @@ export default function Sites(props){
             // console.log(tools)
             return(
                 sites.map(function(site) {
+                    
                     return(
                         <div className="sites-card-wrapper">
                             <div className="site-thumb">
